@@ -1710,15 +1710,16 @@ static CGFloat kDefaultScale = 0.5;
      
      */
     JSContext *ctx = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    __weak typeof(self) weakself = self;
     ctx[@"contentUpdateCallback"] = ^(JSValue *msg) {
-        
-        if (_receiveEditorDidChangeEvents) {
+        __strong typeof(weakself) strongSelf = weakself;
+        if (strongSelf->_receiveEditorDidChangeEvents) {
             
-            [self editorDidChangeWithText:[self getText] andHTML:[self getHTML]];
+            [strongSelf editorDidChangeWithText:[strongSelf getText] andHTML:[strongSelf getHTML]];
             
         }
         
-        [self checkForMentionOrHashtagInText:[self getText]];
+        [strongSelf checkForMentionOrHashtagInText:[strongSelf getText]];
         
     };
     [ctx evaluateScript:@"document.getElementById('zss_editor_content').addEventListener('input', contentUpdateCallback, false);"];
