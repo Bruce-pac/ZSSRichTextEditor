@@ -1297,20 +1297,22 @@ static CGFloat kDefaultScale = 0.5;
                 textField.text = title;
             }
         }];
+        __weak typeof(self) weakSelf = self;
         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [self focusTextEditor];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf focusTextEditor];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:insertButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
             UITextField *linkURL = [alertController.textFields objectAtIndex:0];
             UITextField *title = [alertController.textFields objectAtIndex:1];
-            if (!self.selectedLinkURL) {
-                [self insertLink:linkURL.text title:title.text];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf.selectedLinkURL) {
+                [strongSelf insertLink:linkURL.text title:title.text];
                 //NSLog(@"insert link");
             } else {
-                [self updateLink:linkURL.text title:title.text];
+                [strongSelf updateLink:linkURL.text title:title.text];
             }
-            [self focusTextEditor];
+            [strongSelf focusTextEditor];
         }]];
         [self presentViewController:alertController animated:YES completion:NULL];
         
@@ -1446,22 +1448,24 @@ static CGFloat kDefaultScale = 0.5;
                 textField.text = alt;
             }
         }];
+        __weak typeof(self) weakSelf = self;
         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [self focusTextEditor];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf focusTextEditor];
         }]];
         [alertController addAction:[UIAlertAction actionWithTitle:insertButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
             UITextField *imageURL = [alertController.textFields objectAtIndex:0];
             UITextField *alt = [alertController.textFields objectAtIndex:1];
-            if (!self.selectedImageURL) {
-                [self insertImage:imageURL.text alt:alt.text];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf.selectedImageURL) {
+                [strongSelf insertImage:imageURL.text alt:alt.text];
             } else {
-                [self updateImage:imageURL.text alt:alt.text];
+                [strongSelf updateImage:imageURL.text alt:alt.text];
             }
-            [self focusTextEditor];
+            [strongSelf focusTextEditor];
         }]];
         [self presentViewController:alertController animated:YES completion:NULL];
-        
+
     } else {
         
         self.alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Insert Image", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:insertButtonTitle, nil];
@@ -1517,21 +1521,22 @@ static CGFloat kDefaultScale = 0.5;
             textField.placeholder = NSLocalizedString(@"Image scale, 0.5 by default", nil);
             textField.keyboardType = UIKeyboardTypeDecimalPad;
         }];
-        
+        __weak typeof(self) weakSelf = self;
         //Cancel action
         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            [self focusTextEditor];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf focusTextEditor];
         }]];
         
         //Insert action
         [alertController addAction:[UIAlertAction actionWithTitle:insertButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             UITextField *textFieldAlt = [alertController.textFields objectAtIndex:0];
             UITextField *textFieldScale = [alertController.textFields objectAtIndex:1];
-
-            self.selectedImageScale = [textFieldScale.text floatValue]?:kDefaultScale;
-            self.selectedImageAlt = textFieldAlt.text?:@"";
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.selectedImageScale = [textFieldScale.text floatValue]?:kDefaultScale;
+            strongSelf.selectedImageAlt = textFieldAlt.text?:@"";
             
-            [self presentViewController:self.imagePicker animated:YES completion:nil];
+            [strongSelf presentViewController:strongSelf.imagePicker animated:YES completion:nil];
 
         }]];
         
